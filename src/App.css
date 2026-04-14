@@ -37,7 +37,7 @@ html {
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   background: rgba(8, 15, 32, 0.72);
   backdrop-filter: blur(14px);
   display: flex;
@@ -51,6 +51,15 @@ html {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.5px;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
 }
 
 .nav-links {
@@ -75,26 +84,29 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;   /* ⭐ center horizontally */
-  text-align: center;    /* ⭐ align text properly */
+  align-items: center;
+  text-align: center;
   padding: 40px 20px;
 }
 
 .hero-intro {
   font-size: 20px;
-  color: #b7c5e2;
   margin-bottom: 10px;
+  color: #b7c5e2;
 }
 
 .hero h1 {
   font-size: 72px;
   margin: 10px 0;
+  line-height: 1.05;
+  letter-spacing: 1px;
 }
 
 .hero h2 {
   font-size: 28px;
   color: #ffd54a;
   margin-top: 10px;
+  font-weight: 500;
 }
 
 .section {
@@ -161,6 +173,13 @@ html {
   margin: 8px 0;
   color: #d1dbef;
   line-height: 1.7;
+}
+
+.education-cards > .card:last-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 420px;
+  width: 100%;
 }
 
 .tech-container {
@@ -233,6 +252,7 @@ html {
   gap: 28px;
   margin-top: 16px;
   font-size: 32px;
+  flex-wrap: wrap;
 }
 
 .icons a {
@@ -247,10 +267,28 @@ html {
 
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
     padding: 16px 20px;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+    background: rgba(8, 15, 32, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-links.active {
+    display: flex;
   }
 
   .hero {
@@ -281,6 +319,12 @@ html {
     grid-template-columns: 1fr;
   }
 
+  .education-cards > .card:last-child {
+    grid-column: auto;
+    justify-self: stretch;
+    max-width: none;
+  }
+
   .tech-container {
     gap: 16px;
   }
@@ -294,10 +338,4 @@ html {
   .tech-card p {
     font-size: 11px;
   }
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  justify-items: center;
 }
