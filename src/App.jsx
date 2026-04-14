@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   FaGithub,
@@ -7,6 +7,8 @@ import {
   FaCode,
   FaCertificate,
   FaJava,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import {
   SiCplusplus,
@@ -28,7 +30,7 @@ function StarBackground() {
     let animationFrameId;
     let stars = [];
 
-    const STAR_COUNT = 140; // ⭐ increased density
+    const STAR_COUNT = 140;
     const CURSOR_RADIUS = 90;
     const STAR_TO_STAR_RADIUS = 50;
 
@@ -45,7 +47,6 @@ function StarBackground() {
       }));
     };
 
-    // ⭐ Draw STAR shape (instead of circle)
     const drawStar = (x, y, size) => {
       ctx.beginPath();
       ctx.moveTo(x, y - size);
@@ -69,7 +70,6 @@ function StarBackground() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // move stars
       stars.forEach((star) => {
         star.x += star.vx;
         star.y += star.vy;
@@ -88,7 +88,7 @@ function StarBackground() {
 
           if (dist < CURSOR_RADIUS) {
             nearCursor = true;
-            drawLine(star.x, star.y, mouseRef.current.x, mouseRef.current.y, 0.4);
+            drawLine(star.x, star.y, mouseRef.current.x, mouseRef.current.y, 0.25);
           }
         }
 
@@ -106,13 +106,12 @@ function StarBackground() {
               const dist = Math.sqrt(dx * dx + dy * dy);
 
               if (dist < STAR_TO_STAR_RADIUS) {
-                drawLine(star.x, star.y, other.x, other.y, 0.25);
+                drawLine(star.x, star.y, other.x, other.y, 0.15);
               }
             }
           }
         }
 
-        // ⭐ draw star instead of circle
         drawStar(star.x, star.y, star.size);
       });
 
@@ -150,6 +149,8 @@ function StarBackground() {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const technologies = [
     { name: "Java", icon: <FaJava /> },
     { name: "C++", icon: <SiCplusplus /> },
@@ -182,6 +183,8 @@ function App() {
     },
   ];
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <div className="app-shell">
       <StarBackground />
@@ -189,14 +192,23 @@ function App() {
       <div className="container">
         <nav className="navbar">
           <div className="logo">Pratik Pawar</div>
-          <div className="nav-links">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#technologies">Technologies</a>
-            <a href="#projects">Projects</a>
-            <a href="#education">Education</a>
-            <a href="#certifications">Certifications</a>
-            <a href="#contact">Contact</a>
+
+          <button
+            className="menu-btn"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+
+          <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+            <a href="#about" onClick={closeMenu}>About</a>
+            <a href="#skills" onClick={closeMenu}>Skills</a>
+            <a href="#technologies" onClick={closeMenu}>Technologies</a>
+            <a href="#projects" onClick={closeMenu}>Projects</a>
+            <a href="#education" onClick={closeMenu}>Education</a>
+            <a href="#certifications" onClick={closeMenu}>Certifications</a>
+            <a href="#contact" onClick={closeMenu}>Contact</a>
           </div>
         </nav>
 
@@ -289,7 +301,7 @@ function App() {
 
         <section id="education" className="section">
           <h1 className="section-title">EDUCATION</h1>
-          <div className="cards">
+          <div className="cards education-cards">
             <div className="card">
               <h3>Bachelor of Engineering in Computer Engineering</h3>
               <p>PCCOER, Pune</p>
@@ -311,7 +323,7 @@ function App() {
             </div>
 
             <div className="card">
-              <h3>Secondary Education (10th)</h3>
+              <h3>Secondary Education (SSC)</h3>
               <p>Shridharrao Wable Patil Vidyalay</p>
               <p>Percentage: 88.20%</p>
               <p>
